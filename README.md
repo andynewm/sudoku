@@ -1,4 +1,4 @@
-codewords
+sudoku
 =========
 
-Codeword puzzle app, built with angular
+Sudoku puzzle app, built with angular
