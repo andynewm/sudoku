@@ -1,36 +1,40 @@
 ﻿/* global angular */
 
-angular.module('codeword')
-	.controller('puzzleCtrl', ['$scope', '$timeout', '$routeParams', 'puzzle',
-		function ($scope, $timeout, $routeParams, puzzle) {
+angular.module('sudoku')
+	.controller('puzzleCtrl', ['$scope', 'solver',
+		function ($scope, solver) {
 
-		$scope.selected = null;
+			$scope.grid = [
+				[null,null,null,null,null,null,null,null,null],
+				[null,null,null,null,null,null,null,null,null],
+				[null,null,null,null,null,null,null,null,null],
+				[null,null,null,null,null,null,null,null,null],
+				[null,null,null,null,null,null,null,null,null],
+				[null,null,null,null,null,null,null,null,null],
+				[null,null,null,null,null,null,null,null,null],
+				[null,null,null,null,null,null,null,null,null],
+				[null,null,null,null,null,null,null,null,null]
+			];
 
-		$scope.puzzle = puzzle;
+			$scope.invalid = false;
 
-		$scope.select = function (cell) {
-			$scope.selected = cell;
-		};
+			$scope.result = null;
 
-		$scope.deselect = function () {
-			$scope.selected = null;
-		};
+			$scope.$watch('grid', function (grid) {
+				var result = solver.solve(grid);
 
-		$scope.setLetter = function (cell, option) {
-			$scope.$apply(function () {
-				puzzle.setLetter(cell, option);
-			});
-		};
+				$scope.invalid = !result;
 
-		$scope.showCheck = function () {
-			$scope.checkVisible = true;
-			$timeout(function () { 
-				$scope.checkVisible = false;
-			}, 1600);
-		};
+				$scope.result = result && result.solution;
+				$scope.unique = result && result.unique;
+			}, true);
 
-		var id = +$routeParams.id;
-
-		$scope.next = id < 148 ? id + 1 : null;
+			$scope.range = function (n) {
+				var r = [];
+				while (n--) {
+					r.unshift(n);
+				}
+				return r;
+			}
 
 	}]);
