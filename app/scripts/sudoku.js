@@ -1,3 +1,3 @@
 ﻿/* global angular */
 
-angular.module('sudoku', []);
+angular.module('sudoku', ['arrays']);

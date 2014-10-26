@@ -1,5 +1,5 @@
 angular.module('sudoku')
-	.factory('solver', function () {
+	.factory('solver', function (arrays) {
 
 		function buildState() {
 			var cells = [];
@@ -18,7 +18,7 @@ angular.module('sudoku')
 		var state = buildState();
 
 		function setStateValue(grid) {
-			flatten(grid).forEach(function (cell, index) {
+			arrays.flatten(grid).forEach(function (cell, index) {
 				state[index].value = cell;
 			});
 		}
@@ -91,23 +91,9 @@ angular.module('sudoku')
 		}
 
 		function reverse(state) {
-			return partition(state.map(function (cell) {
+			return arrays.partition(state.map(function (cell) {
 				return cell.value || 0;
 			}), 9);
-		}
-
-		function flatten(array) {
-			return Array.prototype.concat.apply([], array);
-		}
-
-		function partition(array, size) {
-			var r = [];
-
-			for(var i = 0; i < array.length; i += size) {
-				r.push(array.slice(i, i + size));
-			}
-
-			return r;
 		}
 
 		function addLinks(cells) {
