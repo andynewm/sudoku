@@ -11,9 +11,14 @@ angular.module('sudoku')
 					});
 
 					modelCtrl.$parsers.push(function (inputValue) {
+
 					var transformedInput = inputValue
 						.replace(/[^1-9]/g, '')
 						.substr(-1); 
+
+					if (transformedInput) {
+						transformedInput = parseInt(transformedInput);
+					}
 
 					if (transformedInput!=inputValue) {
 						modelCtrl.$setViewValue(transformedInput);
