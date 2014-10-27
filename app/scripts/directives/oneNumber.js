@@ -6,11 +6,15 @@ angular.module('sudoku')
 		return {
 			require: 'ngModel',
 			link: function (scope, element, attr, modelCtrl) {
-					element.on('keydown', function () {
-						this.setSelectionRange(1, 1);
-					});
+				element.on('keydown', function () {
+					this.setSelectionRange(1, 1);
+				});
 
-					modelCtrl.$parsers.push(function (inputValue) {
+				modelCtrl.$parsers.push(function (inputValue) {
+
+					if (Number.isInteger(inputValue)) {
+						return;
+					}
 
 					var transformedInput = inputValue
 						.replace(/[^1-9]/g, '')
